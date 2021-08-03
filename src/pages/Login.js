@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import fetchToken from '../services/fetchToken';
+import ButtonConfig from '../components/ButtonConfig';
 
 class Login extends React.Component {
   constructor() {
@@ -14,6 +15,7 @@ class Login extends React.Component {
     };
     this.handleInputs = this.handleInputs.bind(this);
     this.submitBtn = this.submitBtn.bind(this);
+    this.configBtn = this.configBtn.bind(this);
   }
 
   validade() {
@@ -30,6 +32,11 @@ class Login extends React.Component {
     const { history } = this.props;
     fetchToken();
     history.push('/game');
+  }
+
+  configBtn() {
+    const { history } = this.props;
+    history.push('/config');
   }
 
   handleInputs({ target }) {
@@ -66,6 +73,11 @@ class Login extends React.Component {
           disabled={ disabled }
           testId="btn-play"
           onClick={ this.submitBtn }
+        />
+        <ButtonConfig
+          itemName="Configurações"
+          testId="btn-settings"
+          onClick={ this.configBtn }
         />
       </form>
     );
