@@ -1,6 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Input from '../components/Input';
 import Button from '../components/Button';
+import fetchToken from '../services/fetchToken';
 
 class Login extends React.Component {
   constructor() {
@@ -11,6 +13,7 @@ class Login extends React.Component {
       disabled: true,
     };
     this.handleInputs = this.handleInputs.bind(this);
+    this.submitBtn = this.submitBtn.bind(this);
   }
 
   validade() {
@@ -21,6 +24,12 @@ class Login extends React.Component {
         disabled: false,
       });
     }
+  }
+
+  submitBtn() {
+    const { history } = this.props;
+    fetchToken();
+    history.push('/game');
   }
 
   handleInputs({ target }) {
@@ -56,10 +65,15 @@ class Login extends React.Component {
           itemName="Jogar"
           disabled={ disabled }
           testId="btn-play"
+          onClick={ this.submitBtn }
         />
       </form>
     );
   }
 }
+
+Login.propTypes = {
+  history: PropTypes.objectOf('string').isRequired,
+};
 
 export default Login;
