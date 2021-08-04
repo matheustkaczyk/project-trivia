@@ -43,6 +43,8 @@ class Game extends Component {
 
   render() {
     const { questions, loading, responseCode } = this.state;
+    console.log('--------');
+    console.log(responseCode);
 
     return (
       <div>

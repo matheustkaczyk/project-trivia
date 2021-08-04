@@ -1,29 +1,69 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import fetchToken from '../services/fetchToken';
+import { actionToken } from '../redux/actions';
 
 class Questions extends Component {
   constructor() {
     super();
 
-    this.xablauzinho = this.xablauzinho.bind(this);
+    this.state = {
+      index: 0,
+    };
+
+    this.createQuestions = this.createQuestions.bind(this);
   }
 
-  xablauzinho() {
+  validateToken() {
+    const { getToken } = this.props;
+    localStorage.clear();
+    fetchToken();
+    getToken(localStorage.getItem('token'));
+    this.createQuestions();
+  }
+
+  createQuestions() {
+    const { index } = this.state;
     const { questions } = this.props;
-    return questions.map((question) => {
-      <span>{ question.category }</span>;
-    });
+    const ans = [...questions[index].incorrect_answers];
+    console.log(ans);
+    return (
+      <div>
+        <p data-testid="question-category">{questions[index].category}</p>
+        <p data-testid="question-answer">{questions[index].question}</p>
+        <div>
+          <button
+            data-testid="correct-answer"
+            key={ index }
+            type="button"
+          >
+            { questions[index].correct_answer }
+          </button>
+          { ans.map((question) => (
+            <button
+              data-testid={ `wrong-answer-${index}` }
+              type="button"
+              key={ index }
+            >
+              { question }
+            </button>
+          ))}
+        </div>
+      </div>
+    );
   }
 
   render() {
-    // eslint-disable-next-line react/prop-types
     const { responseCode } = this.props;
+    console.log(responseCode);
+    const three = 3;
     return (
       <div>
         {
-          responseCode === 0
-            ? this.xablauzinho()
-            : 'Token expirado'
+          responseCode === three
+            ? 'Token expirado'
+            : this.createQuestions()
         }
       </div>
     );
@@ -31,14 +71,21 @@ class Questions extends Component {
 }
 
 Questions.propTypes = {
+  responseCode: PropTypes.string.isRequired,
   questions: PropTypes.shape({
     category: PropTypes.string,
     question: PropTypes.string,
     correctanswer: PropTypes.arrayOf(PropTypes.string),
     incorrectanswer: PropTypes.arrayOf(PropTypes.string),
+    map: PropTypes.func,
   }).isRequired,
 };
-export default Questions;
+
+const mapDispatchToProps = (dispatch) => ({
+  getToken: (token) => dispatch(actionToken(token)),
+});
+
+export default connect(null, mapDispatchToProps)(Questions);
 
 // Pergunta de verdadeiro ou falso
 // {
