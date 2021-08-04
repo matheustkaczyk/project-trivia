@@ -11,6 +11,7 @@ class Game extends Component {
     this.state = {
       questions: [],
       loading: true,
+      responseCode: null,
     };
 
     this.fetchTokenQuestions = this.fetchTokenQuestions.bind(this);
@@ -26,9 +27,14 @@ class Game extends Component {
       const url = `https://opentdb.com/api.php?amount=5&token=${token}`;
       fetch(url)
         .then((response) => response.json())
-        .then((data) => this.setState({ questions: data.results, loading: false }));
-      const { questions } = this.state;
-      console.log(questions);
+        // .then((data) => console.log(data.response_code));
+        .then((data) => this.setState({
+          questions: data.results,
+          loading: false,
+          responseCode: data.response_code,
+        }));
+      // const { questions } = this.state;
+      // console.log(questions);
     } catch (erro) {
       console.error(erro);
       return 'Erro no fetch das perguntas';
@@ -36,14 +42,16 @@ class Game extends Component {
   }
 
   render() {
-    const { questions, loading } = this.state;
+    const { questions, loading, responseCode } = this.state;
 
     return (
       <div>
         <Header />
         <div>
           {
-            loading ? 'Carregando...' : <Questions questions={ questions } />
+            loading
+              ? 'Carregando...'
+              : <Questions responseCode={ responseCode } questions={ questions } />
           }
         </div>
       </div>

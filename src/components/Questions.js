@@ -2,15 +2,29 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 class Questions extends Component {
-  render() {
-    const { questions } = this.props;
-    const { category, question, correct_answer: correctanswer, incorrect_answers: incorrectanswers } = questions;
+  constructor() {
+    super();
 
+    this.xablauzinho = this.xablauzinho.bind(this);
+  }
+
+  xablauzinho() {
+    const { questions } = this.props;
+    return questions.map((question) => {
+      <span>{ question.category }</span>;
+    });
+  }
+
+  render() {
+    // eslint-disable-next-line react/prop-types
+    const { responseCode } = this.props;
     return (
       <div>
-        <p data-testid="question-category">{category}</p>
-        <p data-testid="question-text">{question}</p>
-        {/* {alternativas} */}
+        {
+          responseCode === 0
+            ? this.xablauzinho()
+            : 'Token expirado'
+        }
       </div>
     );
   }
