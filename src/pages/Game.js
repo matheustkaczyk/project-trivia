@@ -27,6 +27,8 @@ class Game extends Component {
       fetch(url)
         .then((response) => response.json())
         .then((data) => this.setState({ questions: data.results, loading: false }));
+      const { questions } = this.state;
+      console.log(questions);
     } catch (erro) {
       console.error(erro);
       return 'Erro no fetch das perguntas';
