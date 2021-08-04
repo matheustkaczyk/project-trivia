@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import fetchToken from '../services/fetchToken';
-import { actionEmail, actionName } from '../redux/actions';
+import { actionEmail, actionName, actionToken } from '../redux/actions';
 import ButtonConfig from '../components/ButtonConfig';
 
 class Login extends React.Component {
@@ -29,13 +29,15 @@ class Login extends React.Component {
       });
     }
   }
+  // getToken(localStorage.getItem('token')); acessar na storage
 
   submitBtn() {
     const { email, user } = this.state;
-    const { history, getEmail, getName } = this.props;
+    const { history, getEmail, getName, getToken } = this.props;
     getEmail(email);
     getName(user);
     fetchToken();
+    getToken(localStorage.getItem('token'));
     history.push('/game');
   }
 
@@ -92,12 +94,14 @@ class Login extends React.Component {
 const mapDispatchToProps = (dispatch) => ({
   getEmail: (email) => dispatch(actionEmail(email)),
   getName: (user) => dispatch(actionName(user)),
+  getToken: (token) => dispatch(actionToken(token)),
 });
 
 Login.propTypes = {
   history: PropTypes.objectOf('string').isRequired,
   getEmail: PropTypes.func.isRequired,
   getName: PropTypes.func.isRequired,
+  getToken: PropTypes.func.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Login);
