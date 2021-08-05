@@ -36,7 +36,7 @@ class Questions extends Component {
     return (
       <div>
         <p data-testid="question-category">{questions[index].category}</p>
-        <p data-testid="question-answer">{questions[index].question}</p>
+        <p data-testid="question-text">{questions[index].question}</p>
         <div>
           <button
             data-testid="correct-answer"
@@ -76,10 +76,11 @@ class Questions extends Component {
 }
 
 Questions.propTypes = {
-  // responseCode: PropTypes.string.isRequired,
+  getToken: PropTypes.func.isRequired,
   questions: PropTypes.shape({
     category: PropTypes.string,
     question: PropTypes.string,
+    length: PropTypes.string,
     correctanswer: PropTypes.arrayOf(PropTypes.string),
     incorrectanswer: PropTypes.arrayOf(PropTypes.string),
     map: PropTypes.func,

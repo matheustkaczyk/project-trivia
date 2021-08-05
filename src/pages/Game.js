@@ -32,14 +32,11 @@ class Game extends Component {
       const url = `https://opentdb.com/api.php?amount=5&token=${token}`;
       fetch(url)
         .then((response) => response.json())
-        // .then((data) => console.log(data.response_code));
         .then((data) => this.setState({
           questions: data.results,
           responseCode: data.response_code,
           loading: false,
         }));
-      // const { questions } = this.state;
-      // console.log(questions);
     } catch (erro) {
       console.error(erro);
       return 'Erro no fetch das perguntas';
