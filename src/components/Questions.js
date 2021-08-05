@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import fetchToken from '../services/fetchToken';
-import { actionToken } from '../redux/actions';
+import { actionDisabled, actionToken } from '../redux/actions';
 
 class Questions extends Component {
   constructor() {
@@ -48,7 +48,7 @@ class Questions extends Component {
 
   render() {
     const { index } = this.state;
-    const { questions } = this.props;
+    const { questions, isDisabled } = this.props;
     const CORRECT_ANSWER = 'correct-answer';
     return (
       <>
@@ -65,6 +65,7 @@ class Questions extends Component {
                   : question.id }
                 type="button"
                 key={ `${question.id}` }
+                disabled={ isDisabled }
               >
                 {question.answer}
               </button>
@@ -78,6 +79,7 @@ class Questions extends Component {
 
 Questions.propTypes = {
   getToken: PropTypes.func.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
   questions: PropTypes.shape({
     category: PropTypes.string,
     question: PropTypes.string,
@@ -88,8 +90,13 @@ Questions.propTypes = {
   }).isRequired,
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  getToken: (token) => dispatch(actionToken(token)),
+const mapStateToProps = (state) => ({
+  isDisabled: state.disabledReducer.isDisabled,
 });
 
-export default connect(null, mapDispatchToProps)(Questions);
+const mapDispatchToProps = (dispatch) => ({
+  getToken: (token) => dispatch(actionToken(token)),
+  setDisabled: (isDisabled) => dispatch(actionDisabled(isDisabled)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Questions);
