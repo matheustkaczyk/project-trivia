@@ -9,7 +9,6 @@ import fetchToken from '../services/fetchToken';
 class Game extends Component {
   constructor() {
     super();
-
     this.state = {
       questions: [],
       loading: true,
