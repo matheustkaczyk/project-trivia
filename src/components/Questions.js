@@ -5,6 +5,7 @@ import fetchToken from '../services/fetchToken';
 import { actionDisabled, actionToken } from '../redux/actions';
 import '../App.css';
 
+
 class Questions extends Component {
   constructor() {
     super();
@@ -59,6 +60,7 @@ class Questions extends Component {
 
   render() {
     const { index, btnClicked } = this.state;
+    const { index } = this.state;
     const { questions, isDisabled } = this.props;
     const CORRECT_ANSWER = 'correct-answer';
     return (
