@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Input from '../components/Input';
 import Button from '../components/Button';
-import fetchToken from '../services/fetchToken';
 import { actionEmail, actionName } from '../redux/actions';
 import ButtonConfig from '../components/ButtonConfig';
 
@@ -29,13 +28,15 @@ class Login extends React.Component {
       });
     }
   }
+  // getToken(localStorage.getItem('token')); acessar na storage
 
   submitBtn() {
     const { email, user } = this.state;
     const { history, getEmail, getName } = this.props;
     getEmail(email);
     getName(user);
-    fetchToken();
+    // fetchToken();
+    // getToken(localStorage.getItem('token'));
     history.push('/game');
   }
 
