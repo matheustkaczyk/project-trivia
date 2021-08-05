@@ -20,13 +20,18 @@ class Questions extends Component {
     localStorage.clear();
     fetchToken();
     getToken(localStorage.getItem('token'));
-    this.createQuestions();
+    // this.createQuestions();
   }
 
   createQuestions() {
     const { index } = this.state;
     const { questions } = this.props;
-    const ans = [...questions[index].incorrect_answers];
+    // if (!questions.length) {
+    //   return console.log('oi');
+    // }
+    console.log('------------');
+    console.log(questions);
+    const ans = questions && questions.length && [...questions[index].incorrect_answers];
     console.log(ans);
     return (
       <div>
@@ -55,15 +60,15 @@ class Questions extends Component {
   }
 
   render() {
-    const { responseCode } = this.props;
-    console.log(responseCode);
-    const three = 3;
+    // const { responseCode } = this.props;
+    // console.log(responseCode);
+    // if (responseCode !== 0) {
+    //   return this.validateToken();
+    // }
     return (
       <div>
         {
-          responseCode === three
-            ? 'Token expirado'
-            : this.createQuestions()
+          this.createQuestions()
         }
       </div>
     );
@@ -71,7 +76,7 @@ class Questions extends Component {
 }
 
 Questions.propTypes = {
-  responseCode: PropTypes.string.isRequired,
+  // responseCode: PropTypes.string.isRequired,
   questions: PropTypes.shape({
     category: PropTypes.string,
     question: PropTypes.string,

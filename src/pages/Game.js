@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import Questions from '../components/Questions';
+import { loadingToken, actionToken } from '../redux/actions';
+import fetchToken from '../services/fetchToken';
 
 class Game extends Component {
   constructor() {
@@ -18,6 +20,9 @@ class Game extends Component {
   }
 
   componentDidMount() {
+    const { getToken } = this.props;
+    fetchToken();
+    getToken(localStorage.getItem('token'));
     this.fetchTokenQuestions();
   }
 
@@ -30,8 +35,8 @@ class Game extends Component {
         // .then((data) => console.log(data.response_code));
         .then((data) => this.setState({
           questions: data.results,
-          loading: false,
           responseCode: data.response_code,
+          loading: false,
         }));
       // const { questions } = this.state;
       // console.log(questions);
@@ -42,9 +47,7 @@ class Game extends Component {
   }
 
   render() {
-    const { questions, loading, responseCode } = this.state;
-    console.log('--------');
-    console.log(responseCode);
+    const { questions, responseCode, loading } = this.state;
 
     return (
       <div>
@@ -65,8 +68,14 @@ const mapStateToProps = (state) => ({
   token: state.tokenReducer.token,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  loading: (loading) => dispatch(loadingToken(loading)),
+  getToken: (token) => dispatch(actionToken(token)),
+});
+
 Game.propTypes = {
   token: PropTypes.string.isRequired,
+  getToken: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, null)(Game);
+export default connect(mapStateToProps, mapDispatchToProps)(Game);
