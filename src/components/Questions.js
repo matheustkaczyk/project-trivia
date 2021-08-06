@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { actionDisabled, actionScore } from '../redux/actions';
+import fetchToken from '../services/fetchToken';
+import ButtonNext from './ButtonNext';
+import '../App.css';
 
 class Questions extends Component {
   constructor() {
@@ -10,10 +13,27 @@ class Questions extends Component {
     this.state = {
       index: 0,
       assertions: 0,
+      btnClicked: false,
+      nextQuestion: false, // muda pra true na funçao de mudar a cor;
     };
 
     this.createQuestions = this.createQuestions.bind(this);
     this.verifyAns = this.verifyAns.bind(this);
+    this.selectedResponse = this.selectedResponse.bind(this);
+  }
+
+  selectedResponse() {
+    this.setState({
+      btnClicked: true,
+      nextQuestion: true,
+    });
+  }
+
+  validateToken() {
+    const { getToken } = this.props;
+    localStorage.clear();
+    fetchToken();
+    getToken(localStorage.getItem('token'));
   }
 
   // Lógica feita com auxílio do meu colega Matheus Figueiredo,
@@ -30,26 +50,18 @@ class Questions extends Component {
       {
         answer: correctAnswer,
         id: CORRECT_ANSWER,
+        ifCorrect: CORRECT_ANSWER,
       },
       ...incorrectAnswers.map((item, i) => ({
         answer: item,
         id: `wrong-answer-${i}`,
+        ifCorrect: 'wrong-answer',
       })),
     ].sort((a, b) => a.answer.localeCompare(b.answer));
   }
 
   updatePlayer(scoreValue, assertionsValue) {
     const state = JSON.parse(localStorage.getItem('state'));
-    // console.log(player);
-    // const newState = {
-    //   player: {
-    //     gravatarEmail: player.gravatarEmail,
-    //     name: player.name,
-    //     score: scoreValue,
-    //     assertions: assertionsValue,
-    //   },
-    // };
-    // console.log(newState.player.score);
     const newState = {
       player: {
         ...state.player,
@@ -61,6 +73,7 @@ class Questions extends Component {
   }
 
   verifyAns({ target }) {
+    this.selectedResponse();
     const ten = 10;
     const values = { easy: 1, medium: 2, hard: 3 };
     const { index } = this.state;
@@ -87,7 +100,7 @@ class Questions extends Component {
   }
 
   render() {
-    const { index } = this.state;
+    const { index, btnClicked, nextQuestion } = this.state;
     const { questions, isDisabled } = this.props;
     const CORRECT_ANSWER = 'correct-answer';
     return (
@@ -108,12 +121,17 @@ class Questions extends Component {
                 key={ `${question.id}` }
                 disabled={ isDisabled }
                 onClick={ this.verifyAns }
+                className={ btnClicked
+                  ? question.ifCorrect
+                  : '' }
               >
                 {question.answer}
               </button>
             ))
           }
         </div>
+        { nextQuestion && <ButtonNext testId="btn-next" /> }
+
       </>
     );
   }
@@ -124,6 +142,7 @@ Questions.propTypes = {
   timer: PropTypes.string.isRequired,
   setScore: PropTypes.func.isRequired,
   setDisabled: PropTypes.func.isRequired,
+  getToken: PropTypes.func.isRequired,
   questions: PropTypes.shape({
     category: PropTypes.string,
     question: PropTypes.string,
