@@ -5,11 +5,17 @@ import { connect } from 'react-redux';
 import Span from './Span';
 import Img from './Img';
 import Timer from '../services/timer';
+// import getScore from '../services/getScore';
 
 class Header extends React.Component {
   constructor() {
     super();
     this.createHash = this.createHash.bind(this);
+  }
+
+  getScore() {
+    const score = localStorage.getItem('state');
+    return <h4 data-testid="header-score">{score}</h4>;
   }
 
   createHash() {
@@ -19,7 +25,10 @@ class Header extends React.Component {
   }
 
   render() {
-    const { user } = this.props;
+    const { user, score } = this.props;
+    // const { user } = this.props;
+    // const scoreValue = localStorage.getItem('state');
+    // console.log(score);
     return (
       <header>
         <Img
@@ -32,9 +41,10 @@ class Header extends React.Component {
           textContent={ user }
           testId="header-player-name"
         />
+        <span data-testId="header-score">{ score }</span>
         <Span
           textContent={ <Timer /> }
-          testId="header-score"
+          testId="header-timer"
         />
       </header>
     );
@@ -44,6 +54,7 @@ class Header extends React.Component {
 const mapStateToProps = (state) => ({
   email: state.emailReducer.email,
   user: state.nameReducer.user,
+  score: state.scoreReducer.score,
 });
 
 Span.propTypes = {
@@ -53,6 +64,7 @@ Span.propTypes = {
 Header.propTypes = {
   email: string.isRequired,
   user: string.isRequired,
+  score: string.isRequired,
 };
 
 export default connect(mapStateToProps)(Header);
