@@ -119,6 +119,14 @@ class Questions extends Component {
     }
   }
 
+  replaceSpecialChars(str) { // remove aspas
+    return str.normalize('NFD')
+      .replace(/[^a-zA-Zs]/g, ' ');
+    // const cod = window.btoa(str);
+    // const decod = window.atob(cod);
+    // return decod;
+  }
+
   changeQuestion() {
     const { setDisabled } = this.props;
     console.log(this.setTimer);
@@ -145,7 +153,10 @@ class Questions extends Component {
       <>
         <div>
           <p data-testid="question-category">{questions[index].category}</p>
-          <p data-testid="question-text">{questions[index].question}</p>
+          <p data-testid="question-text">
+            {this.replaceSpecialChars(questions[index].question)}
+          </p>
+
           <Span
             textContent={ timer }
             testId="header-timer"
