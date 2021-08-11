@@ -81,8 +81,8 @@ body {
 }
 
 .login-title {
-  font-family: Fredericka the Great, cursive;
   color: aliceblue;
+  font-family: Fredericka the Great , cursive;
   font-size: 5vh;
   margin: 0;
 }
