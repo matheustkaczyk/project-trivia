@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { string, number } from 'prop-types';
+import { string } from 'prop-types';
 import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
 import Span from './Span';
 import Img from './Img';
+import '../App.css';
 
 class FeedBackHeader extends Component {
   constructor() {
@@ -33,28 +34,37 @@ class FeedBackHeader extends Component {
     const { assertions } = this.props;
     console.log(assertions);
     if (assertions < three) {
-      return <h3 data-testId="feedback-text">Podia ser melhor...</h3>;
+      return (
+        <h3
+          className="review-feedback"
+          data-testId="feedback-text"
+        >
+          Podia ser melhor...
+        </h3>
+      );
     }
     if (assertions >= three) {
-      return <h3 data-testId="feedback-text">Mandou bem!</h3>;
+      return <h3 className="review-feedback" data-testId="feedback-text">Mandou bem!</h3>;
     }
   }
 
   render() {
-    const { user, score } = this.props;
+    const { user } = this.props;
     return (
       <header>
         <Img
+          logoAvatar="img-feedback"
           srcImg={ `https://www.gravatar.com/avatar/${this.createHash()}` }
           descriptionImg="Avatar do usuário"
           testId="header-profile-picture"
         />
-        <p />
-        <Span
-          textContent={ user }
-          testId="header-player-name"
-        />
-        <span data-testid="header-score">{ score }</span>
+        <p
+          className="user-feedback"
+          data-testid="header-player-name"
+        >
+          {user}
+        </p>
+
         { this.checkFinal() }
       </header>
     );
@@ -74,7 +84,6 @@ Span.propTypes = {
 
 FeedBackHeader.propTypes = {
   email: string.isRequired,
-  score: number.isRequired,
   user: string.isRequired,
   assertions: string.isRequired,
 };

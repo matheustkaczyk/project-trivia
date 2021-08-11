@@ -6,6 +6,7 @@ import Questions from '../components/Questions';
 import { loadingToken, actionToken } from '../redux/actions';
 import fetchToken from '../services/fetchToken';
 // import ButtonNext from '../components/ButtonNext';
+import '../App.css';
 
 class Game extends Component {
   constructor() {
@@ -27,8 +28,8 @@ class Game extends Component {
   }
 
   fetchTokenQuestions() {
-    const { tokenStore } = this.props;
-    const token = localStorage.getItem('token') || tokenStore;
+    // const { tokenStore } = this.props;
+    const token = localStorage.getItem('token');
     try {
       const url = `https://opentdb.com/api.php?amount=5&token=${token}`;
       fetch(url)
@@ -38,7 +39,6 @@ class Game extends Component {
           loading: false,
         }));
     } catch (erro) {
-      console.error(erro);
       return 'Erro no fetch das perguntas';
     }
   }
@@ -47,13 +47,14 @@ class Game extends Component {
     const { questions, loading } = this.state;
     return (
       <div>
-        <Header />
+        <Header className="header" />
         <div>
           {
             loading
               ? 'Carregando...'
               : <Questions questions={ questions } />
           }
+          {/* <Questions questions={ questions } /> */}
         </div>
       </div>
     );
@@ -71,7 +72,6 @@ const mapDispatchToProps = (dispatch) => ({
 
 Game.propTypes = {
   getToken: PropTypes.func.isRequired,
-  tokenStore: PropTypes.string.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);

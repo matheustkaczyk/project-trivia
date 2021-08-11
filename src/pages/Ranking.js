@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import '../App.css';
 
 class Ranking extends React.Component {
   constructor(props) {
@@ -31,31 +32,36 @@ class Ranking extends React.Component {
 
   render() {
     this.handleRanking();
+    const { history } = this.props;
     const infos = JSON.parse(localStorage.getItem('ranking'));
     return (
-      <div>
-        <h1 data-testid="ranking-title">Ranking</h1>
-        <ul>
+      <div className="container-ranking">
+        <h1 className="ranking-title" data-testid="ranking-title">Ranking</h1>
+        <hr />
+        <ul className="container-list">
           { infos.sort((a, b) => b.score - a.score).map((data, index) => (
-            <li key={ index }>
-              <img src={ `https://www.gravatar.com/avatar/${data.image}` } alt="Imagem Gravatar" />
-              <p data-testid={ `player-name-${index}` }>{ data.name }</p>
-              <p data-testid={ `player-score-${index}` }>{ data.score }</p>
-            </li>
+            <>
+              <li key={ index }>
+                <img className="logoAvatar" src={ `https://www.gravatar.com/avatar/${data.image}` } alt="Imagem Gravatar" />
+                <p data-testid={ `player-name-${index}` }>{ data.name }</p>
+                <p data-testid={ `player-score-${index}` }>{ data.score }</p>
+              </li>
+              <hr />
+            </>
           )) }
         </ul>
         <button
+          className="feedback-btn"
           type="button"
           data-testid="btn-go-home"
-          onClick={ this.rankingBtn }
+          onClick={ () => history.push('/') }
         >
-          Jogar novamentes
+          Jogar novamente
         </button>
       </div>
     );
   }
 }
-
 const mapStateToProps = (state) => ({
   hash: state.hashReducer.hash,
 });

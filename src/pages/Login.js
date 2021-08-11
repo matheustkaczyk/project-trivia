@@ -5,6 +5,7 @@ import Input from '../components/Input';
 import Button from '../components/Button';
 import { actionEmail, actionName } from '../redux/actions';
 import ButtonConfig from '../components/ButtonConfig';
+import '../App.css';
 import fetchToken from '../services/fetchToken';
 
 class Login extends React.Component {
@@ -65,8 +66,9 @@ class Login extends React.Component {
   render() {
     const { user, email, disabled } = this.state;
     return (
-      <form>
+      <form className="form">
         <Input
+          className="display-Inputs"
           type="text"
           testId="input-player-name"
           onChange={ this.handleInputs }
@@ -76,6 +78,7 @@ class Login extends React.Component {
           itemName="Nome"
         />
         <Input
+          className="display-Inputs"
           type="email"
           testId="input-gravatar-email"
           onChange={ this.handleInputs }
@@ -85,12 +88,14 @@ class Login extends React.Component {
           itemName="Email"
         />
         <Button
+          className="btn-login btn-play"
           itemName="Jogar"
           disabled={ disabled }
           testId="btn-play"
           onClick={ this.submitBtn }
         />
         <ButtonConfig
+          className="btn-login"
           itemName="Configurações"
           testId="btn-settings"
           onClick={ this.configBtn }
