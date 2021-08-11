@@ -67,6 +67,7 @@ class Login extends React.Component {
     const { user, email, disabled } = this.state;
     return (
       <form className="form">
+        <h3 className="login-title">BEM-VINDO!</h3>
         <Input
           className="display-Inputs"
           type="text"
