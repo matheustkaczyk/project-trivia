@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router';
-import logo from './trivia.png';
+import logo from './index.png';
 import './App.css';
 import Login from './pages/Login';
 import Game from './pages/Game';
