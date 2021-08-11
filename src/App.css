@@ -9,6 +9,7 @@ body {
 .App-logo {
   height: 10vmin;
   pointer-events: none;
+  margin-top: 1vh;
 }
 
 .red-border {
