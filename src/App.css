@@ -106,7 +106,7 @@ body {
   justify-content: center;
   margin: 0 auto;
   min-width: 300px;
-  width: 50%;
+  width: 30%;
 }
 
 .btn-play {
@@ -176,9 +176,10 @@ body {
 
 .category {
   background-color: #545fa1;
-  border-radius: 100%;
+  border-radius: 20%;
   bottom: 35px;
   color: aliceblue;
+  font-size: 1em;
   height: 80px;
   margin: 20px auto;
   padding: 40px 5px 0;
